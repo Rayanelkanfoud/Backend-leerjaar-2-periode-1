@@ -13,7 +13,7 @@ class CreateNewUser implements CreatesNewUsers
     use PasswordValidationRules, ProfileValidationRules;
 
     /**
-     * Validate and create a newly registered user.
+     * nieuwe gebruiker maken
      *
      * @param  array<string, string>  $input
      */
@@ -22,12 +22,14 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),
+            'rolname' => ['nullable', 'string', 'max:20'],
         ])->validate();
 
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
+            'rolname' => $input['rolname'] ?? 'medewerker',
         ]);
     }
 }

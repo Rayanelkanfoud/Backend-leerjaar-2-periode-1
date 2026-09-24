@@ -5,17 +5,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+Route::view('/dashboard', 'dashboard')
+    ->middleware('auth')
+    ->name('dashboard');
 
-    Route::get('/magazijn', [MagazijnController::class, 'index'])
-        ->name('magazijn');
+Route::get(
+    '/magazijn',
+    [MagazijnController::class, 'index']
+)->name('magazijn');
 
-    Route::get('/magazijn/{productId}/levering', [MagazijnController::class, 'levering'])
-        ->name('magazijn.levering');
+Route::get(
+    '/magazijn/{id}/leverantie',
+    [MagazijnController::class, 'leverantie']
+)->name('magazijn.leverantie');
 
-    Route::get('/magazijn/{productId}/allergenen', [MagazijnController::class, 'allergenen'])
-        ->name('magazijn.allergenen');
-});
+Route::get(
+    '/magazijn/{id}/allergenen',
+    [MagazijnController::class, 'allergenen']
+)->name('magazijn.allergenen');
 
 require __DIR__.'/settings.php';

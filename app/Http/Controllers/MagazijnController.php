@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\MagazijnModel;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class MagazijnController extends Controller
+class MagazijnController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        // gebruiker moet ingelogd zijn
+        return ['auth'];
+    }
+
     public function index(MagazijnModel $magazijnModel)
     {
         // producten ophalen uit databse
@@ -16,28 +23,47 @@ class MagazijnController extends Controller
         ]);
     }
 
-    public function levering(int $productId, MagazijnModel $magazijnModel)
+    public function leverantie(int $id, MagazijnModel $magazijnModel)
     {
-        // leveringen ophalen uit databse
-        $leveringen = $magazijnModel->getLeveringen($productId);
+        // gekozen product ophalen
+        $product = $magazijnModel->getProduct($id);
 
-        abort_if(count($leveringen) === 0, 404);
+        abort_if(!$product, 404);
 
-        return view('magazijn-levering', [
-            'product' => $leveringen[0],
+        // checken of product voorraad heeft
+        if ($product->AantalAanwezig === null) {
+            return view('leverantie', [
+                'product' => $product,
+                'geenVoorraad' => true,
+                'leverancier' => null,
+                'leveringen' => [],
+            ]);
+        }
+
+        // leverancier en leveringen ophalen
+        $leverancier = $magazijnModel->getLeverancier($id);
+        $leveringen = $magazijnModel->getLeveringen($id);
+
+        return view('leverantie', [
+            'product' => $product,
+            'geenVoorraad' => false,
+            'leverancier' => $leverancier,
             'leveringen' => $leveringen,
         ]);
     }
 
-    public function allergenen(int $productId, MagazijnModel $magazijnModel)
+    public function allergenen(int $id, MagazijnModel $magazijnModel)
     {
-        // allergenen ophalen uit databse
-        $allergenen = $magazijnModel->getAllergenen($productId);
+        // product ophalen
+        $product = $magazijnModel->getProduct($id);
 
-        abort_if(count($allergenen) === 0, 404);
+        abort_if(!$product, 404);
 
-        return view('magazijn-allergenen', [
-            'product' => $allergenen[0],
+        // allergenen ophalen
+        $allergenen = $magazijnModel->getAllergenen($id);
+
+        return view('allergenen', [
+            'product' => $product,
             'allergenen' => $allergenen,
         ]);
     }

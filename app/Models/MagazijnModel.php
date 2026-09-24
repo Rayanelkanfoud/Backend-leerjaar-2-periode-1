@@ -9,11 +9,10 @@ class MagazijnModel
 {
     public function getProducten(): array
     {
-        // verbinding ophalen via pdo
+        // verbinding met databse
         $pdo = DB::connection()->getPdo();
 
-        // producten uit de databse ophalen
-        $sql = '
+        $sql = "
             SELECT
                 p.Id,
                 p.Naam,
@@ -26,7 +25,7 @@ class MagazijnModel
             WHERE p.IsActief = 1
                 AND m.IsActief = 1
             ORDER BY p.Barcode ASC
-        ';
+        ";
 
         $statement = $pdo->prepare($sql);
         $statement->execute();
@@ -34,74 +33,105 @@ class MagazijnModel
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function getLeveringen(int $productId): array
+    public function getProduct(int $productId): object|false
     {
-        // verbinding ophalen via pdo
+        // product ophalen
         $pdo = DB::connection()->getPdo();
 
-        // leveringen ophalen uit databse
         $sql = "
             SELECT
-                p.Id AS ProductId,
-                p.Naam AS ProductNaam,
-                m.AantalAanwezig,
-                l.Naam AS LeverancierNaam,
-                l.ContactPersoon,
-                l.LeverancierNummer,
-                l.Mobiel,
-                DATE_FORMAT(ppl.DatumLevering, '%d-%m-%Y') AS DatumLaatsteLevering,
-                ppl.Aantal,
-                DATE_FORMAT(ppl.DatumEerstVolgendeLevering, '%d-%m-%Y') AS DatumEerstVolgendeLevering
+                p.Id,
+                p.Naam,
+                p.Barcode,
+                m.AantalAanwezig
             FROM Product AS p
             INNER JOIN Magazijn AS m
                 ON p.Id = m.ProductId
-            INNER JOIN ProductPerLeverancier AS ppl
-                ON p.Id = ppl.ProductId
-            INNER JOIN Leverancier AS l
-                ON ppl.LeverancierId = l.Id
             WHERE p.Id = :productId
-                AND p.IsActief = 1
-                AND m.IsActief = 1
-                AND ppl.IsActief = 1
-                AND l.IsActief = 1
-            ORDER BY ppl.DatumLevering ASC
         ";
 
         $statement = $pdo->prepare($sql);
-        $statement->bindValue(':productId', $productId, PDO::PARAM_INT);
-        $statement->execute();
+
+        $statement->execute([
+            'productId' => $productId,
+        ]);
+
+        return $statement->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getLeverancier(int $productId): object|false
+    {
+        // leverancier van product ophalen
+        $pdo = DB::connection()->getPdo();
+
+        $sql = "
+            SELECT
+                l.Naam AS LeverancierNaam,
+                l.ContactPersoon,
+                l.LeverancierNummer,
+                l.Mobiel
+            FROM Leverancier AS l
+            INNER JOIN ProductPerLeverancier AS pl
+                ON l.Id = pl.LeverancierId
+            WHERE pl.ProductId = :productId
+            ORDER BY pl.DatumLevering ASC
+            LIMIT 1
+        ";
+
+        $statement = $pdo->prepare($sql);
+
+        $statement->execute([
+            'productId' => $productId,
+        ]);
+
+        return $statement->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getLeveringen(int $productId): array
+    {
+        // leveringen ophalen
+        $pdo = DB::connection()->getPdo();
+
+        $sql = "
+            SELECT
+                pl.DatumLevering,
+                pl.Aantal,
+                pl.DatumEerstVolgendeLevering
+            FROM ProductPerLeverancier AS pl
+            WHERE pl.ProductId = :productId
+            ORDER BY pl.DatumLevering ASC
+        ";
+
+        $statement = $pdo->prepare($sql);
+
+        $statement->execute([
+            'productId' => $productId,
+        ]);
 
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getAllergenen(int $productId): array
     {
-        // verbinding ophalen via pdo
+        // allergenen van product ophalen
         $pdo = DB::connection()->getPdo();
 
-        // allergenen ophalen uit databse
-        $sql = '
+        $sql = "
             SELECT
-                p.Id AS ProductId,
-                p.Naam AS ProductNaam,
-                p.Barcode,
-                a.Naam AS AllergeenNaam,
+                a.Naam,
                 a.Omschrijving
-            FROM Product AS p
-            LEFT JOIN ProductPerAllergeen AS ppa
-                ON p.Id = ppa.ProductId
-                AND ppa.IsActief = 1
-            LEFT JOIN Allergeen AS a
-                ON ppa.AllergeenId = a.Id
-                AND a.IsActief = 1
-            WHERE p.Id = :productId
-                AND p.IsActief = 1
+            FROM Allergeen AS a
+            INNER JOIN ProductPerAllergeen AS pa
+                ON a.Id = pa.AllergeenId
+            WHERE pa.ProductId = :productId
             ORDER BY a.Naam ASC
-        ';
+        ";
 
         $statement = $pdo->prepare($sql);
-        $statement->bindValue(':productId', $productId, PDO::PARAM_INT);
-        $statement->execute();
+
+        $statement->execute([
+            'productId' => $productId,
+        ]);
 
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }

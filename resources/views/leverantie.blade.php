@@ -10,47 +10,31 @@
             Levering Informatie
         </h1>
 
-        @if ($geenVoorraad)
+        <div class="mb-6 space-y-2">
 
-            <table class="w-full border-collapse">
+            <p>
+                <strong>Naam leverancier:</strong>
+                {{ $leverancier?->LeverancierNaam ?? '' }}
+            </p>
 
-                <tbody>
+            <p>
+                <strong>Contactpersoon leverancier:</strong>
+                {{ $leverancier?->ContactPersoon ?? '' }}
+            </p>
 
-                    <tr>
-                        <td class="border border-zinc-400 px-3 py-4">
-                            Er is van dit product op dit moment geen voorraad aanwezig, de verwachte eerstvolgende levering is: 30-04-2023
-                        </td>
-                    </tr>
+            <p>
+                <strong>Leveranciernummer:</strong>
+                {{ $leverancier?->LeverancierNummer ?? '' }}
+            </p>
 
-                </tbody>
+            <p>
+                <strong>Mobiel:</strong>
+                {{ $leverancier?->Mobiel ?? '' }}
+            </p>
 
-            </table>
+        </div>
 
-        @else
-
-            <div class="mb-6 space-y-2">
-
-                <p>
-                    <strong>Naam leverancier:</strong>
-                    {{ $leverancier->LeverancierNaam }}
-                </p>
-
-                <p>
-                    <strong>Contactpersoon leverancier:</strong>
-                    {{ $leverancier->ContactPersoon }}
-                </p>
-
-                <p>
-                    <strong>Leveranciernummer:</strong>
-                    {{ $leverancier->LeverancierNummer }}
-                </p>
-
-                <p>
-                    <strong>Mobiel:</strong>
-                    {{ $leverancier->Mobiel }}
-                </p>
-
-            </div>
+        <div class="overflow-x-auto">
 
             <table class="w-full border-collapse">
 
@@ -80,39 +64,62 @@
 
                 <tbody>
 
-                    @foreach ($leveringen as $levering)
+                    @if ($geenVoorraad)
 
                         <tr>
 
-                            <td class="border border-zinc-400 px-3 py-2">
-                                {{ $product->Naam }}
-                            </td>
-
-                            <td class="border border-zinc-400 px-3 py-2">
-                                {{ date('d-m-Y', strtotime($levering->DatumLevering)) }}
-                            </td>
-
-                            <td class="border border-zinc-400 px-3 py-2">
-                                {{ $levering->Aantal }}
-                            </td>
-
-                            <td class="border border-zinc-400 px-3 py-2">
-                                @if ($levering->DatumEerstVolgendeLevering)
-                                    {{ date('d-m-Y', strtotime($levering->DatumEerstVolgendeLevering)) }}
-                                @else
-                                    Geen datum bekend
-                                @endif
+                            <td
+                                colspan="4"
+                                class="border border-zinc-400 px-3 py-4 text-center"
+                            >
+                                Er is van dit product op dit moment geen voorraad aanwezig, de verwachte eerstvolgende levering is: 30-04-2023
                             </td>
 
                         </tr>
 
-                    @endforeach
+                    @else
+
+                        @foreach ($leveringen as $levering)
+
+                            <tr>
+
+                                <td class="border border-zinc-400 px-3 py-2">
+                                    {{ $product->Naam }}
+                                </td>
+
+                                <td class="border border-zinc-400 px-3 py-2">
+                                    {{ date('d-m-Y', strtotime($levering->DatumLevering)) }}
+                                </td>
+
+                                <td class="border border-zinc-400 px-3 py-2">
+                                    {{ $levering->Aantal }}
+                                </td>
+
+                                <td class="border border-zinc-400 px-3 py-2">
+
+                                    @if ($levering->DatumEerstVolgendeLevering)
+
+                                        {{ date('d-m-Y', strtotime($levering->DatumEerstVolgendeLevering)) }}
+
+                                    @else
+
+                                        Geen datum bekend
+
+                                    @endif
+
+                                </td>
+
+                            </tr>
+
+                        @endforeach
+
+                    @endif
 
                 </tbody>
 
             </table>
 
-        @endif
+        </div>
 
         <div class="mt-6">
 

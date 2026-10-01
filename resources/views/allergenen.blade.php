@@ -24,9 +24,9 @@
 
         </div>
 
-        <table class="w-full border-collapse">
+        <div class="overflow-x-auto">
 
-            @if (count($allergenen) > 0)
+            <table class="w-full border-collapse">
 
                 <thead>
 
@@ -46,41 +46,44 @@
 
                 <tbody>
 
-                    @foreach ($allergenen as $allergeen)
+                    @if (count($allergenen) === 0)
 
                         <tr>
 
-                            <td class="border border-zinc-400 px-3 py-2">
-                                {{ $allergeen->Naam }}
-                            </td>
-
-                            <td class="border border-zinc-400 px-3 py-2">
-                                {{ $allergeen->Omschrijving }}
+                            <td
+                                colspan="2"
+                                class="border border-zinc-400 px-3 py-4 text-center"
+                            >
+                                In dit product zitten geen stoffen die een allergische reactie kunnen veroorzaken
                             </td>
 
                         </tr>
 
-                    @endforeach
+                    @else
+
+                        @foreach ($allergenen as $allergeen)
+
+                            <tr>
+
+                                <td class="border border-zinc-400 px-3 py-2">
+                                    {{ $allergeen->Naam }}
+                                </td>
+
+                                <td class="border border-zinc-400 px-3 py-2">
+                                    {{ $allergeen->Omschrijving }}
+                                </td>
+
+                            </tr>
+
+                        @endforeach
+
+                    @endif
 
                 </tbody>
 
-            @else
+            </table>
 
-                <tbody>
-
-                    <tr>
-
-                        <td class="border border-zinc-400 px-3 py-4">
-                            In dit product zitten geen stoffen die een allergische reactie kunnen veroorzaken
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            @endif
-
-        </table>
+        </div>
 
         <div class="mt-6">
 

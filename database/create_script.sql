@@ -1,13 +1,27 @@
-/* database opnieuw maken */
-DROP DATABASE IF EXISTS `mvc`;
+/* database gebruiken */
 
 CREATE DATABASE IF NOT EXISTS `mvc`;
 
 USE `mvc`;
 
 
+/* alleen jamin tabellen opnieuw maken */
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS ProductPerLeverancier;
+DROP TABLE IF EXISTS ProductPerAllergeen;
+DROP TABLE IF EXISTS Magazijn;
+DROP TABLE IF EXISTS Leverancier;
+DROP TABLE IF EXISTS Allergeen;
+DROP TABLE IF EXISTS Product;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
 /* stamtafel product maken */
-CREATE TABLE IF NOT EXISTS Product
+
+CREATE TABLE Product
 (
     Id                  TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     Naam                VARCHAR(50) NOT NULL,
@@ -22,8 +36,10 @@ CREATE TABLE IF NOT EXISTS Product
 
 
 /* producten invullen */
+
 INSERT INTO Product
 (
+    Id,
     Naam,
     Barcode,
     IsActief,
@@ -32,23 +48,24 @@ INSERT INTO Product
     DatumGewijzigd
 )
 VALUES
-    ('Mintnopjes', '8719587231278', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Schoolkrijt', '8719587326713', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Honingdrop', '8719587327836', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Zure Beren', '8719587321441', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Cola Flesjes', '8719587321237', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Turtles', '8719587322245', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Witte Muizen', '8719587328256', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Reuzen Slangen', '8719587325641', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Zoute Rijen', '8719587322739', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Winegums', '8719587327527', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Drop Munten', '8719587322345', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Kruis Drop', '8719587322265', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Zoute Ruitjes', '8719587323256', 1, NULL, SYSDATE(6), SYSDATE(6));
+    (1, 'Mintnopjes', '8719587231278', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (2, 'Schoolkrijt', '8719587326713', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (3, 'Honingdrop', '8719587327836', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (4, 'Zure Beren', '8719587321441', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (5, 'Cola Flesjes', '8719587321237', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (6, 'Turtles', '8719587322245', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (7, 'Witte Muizen', '8719587328256', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (8, 'Reuzen Slangen', '8719587325641', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (9, 'Zoute Rijen', '8719587322739', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (10, 'Winegums', '8719587327527', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (11, 'Drop Munten', '8719587322345', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (12, 'Kruis Drop', '8719587322265', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (13, 'Zoute Ruitjes', '8719587323256', 1, NULL, SYSDATE(6), SYSDATE(6));
 
 
 /* stamtafel allergeen maken */
-CREATE TABLE IF NOT EXISTS Allergeen
+
+CREATE TABLE Allergeen
 (
     Id                  TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     Naam                VARCHAR(50) NOT NULL,
@@ -63,8 +80,10 @@ CREATE TABLE IF NOT EXISTS Allergeen
 
 
 /* allergenen invulle */
+
 INSERT INTO Allergeen
 (
+    Id,
     Naam,
     Omschrijving,
     IsActief,
@@ -73,15 +92,16 @@ INSERT INTO Allergeen
     DatumGewijzigd
 )
 VALUES
-    ('Gluten', 'Dit product bevat gluten', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Gelatine', 'Dit product bevat gelatine', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('AZO-Kleurstof', 'Dit product bevat AZO-kleurstoffen', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Lactose', 'Dit product bevat lactose', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Soja', 'Dit product bevat soja', 1, NULL, SYSDATE(6), SYSDATE(6));
+    (1, 'Gluten', 'Dit product bevat gluten', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (2, 'Gelatine', 'Dit product bevat gelatine', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (3, 'AZO-Kleurstof', 'Dit product bevat AZO-kleurstoffen', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (4, 'Lactose', 'Dit product bevat lactose', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (5, 'Soja', 'Dit product bevat soja', 1, NULL, SYSDATE(6), SYSDATE(6));
 
 
 /* stamtafel leverancier maken */
-CREATE TABLE IF NOT EXISTS Leverancier
+
+CREATE TABLE Leverancier
 (
     Id                  TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     Naam                VARCHAR(50) NOT NULL,
@@ -98,8 +118,10 @@ CREATE TABLE IF NOT EXISTS Leverancier
 
 
 /* leveranciers invullen */
+
 INSERT INTO Leverancier
 (
+    Id,
     Naam,
     ContactPersoon,
     LeverancierNummer,
@@ -110,15 +132,16 @@ INSERT INTO Leverancier
     DatumGewijzigd
 )
 VALUES
-    ('Venco', 'Bert van Linge', 'L1029384719', '06-28493827', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Astra Sweets', 'Jasper del Monte', 'L1029284315', '06-39398734', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Haribo', 'Sven Stalman', 'L1029324748', '06-24383291', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('Basset', 'Joyce Stelterberg', 'L1023845773', '06-48293823', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    ('De Bron', 'Remco Veenstra', 'L1023857736', '06-34291234', 1, NULL, SYSDATE(6), SYSDATE(6));
+    (1, 'Venco', 'Bert van Linge', 'L1029384719', '06-28493827', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (2, 'Astra Sweets', 'Jasper del Monte', 'L1029284315', '06-39398734', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (3, 'Haribo', 'Sven Stalman', 'L1029324748', '06-24383291', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (4, 'Basset', 'Joyce Stelterberg', 'L1023845773', '06-48293823', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (5, 'De Bron', 'Remco Veenstra', 'L1023857736', '06-34291234', 1, NULL, SYSDATE(6), SYSDATE(6));
 
 
 /* magazijn tabel maken */
-CREATE TABLE IF NOT EXISTS Magazijn
+
+CREATE TABLE Magazijn
 (
     Id                  TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     ProductId           TINYINT UNSIGNED NOT NULL,
@@ -130,14 +153,17 @@ CREATE TABLE IF NOT EXISTS Magazijn
     DatumGewijzigd      DATETIME(6) NOT NULL,
 
     CONSTRAINT PK_Magazijn_Id PRIMARY KEY (Id),
+
     CONSTRAINT FK_Magazijn_ProductId_Product_Id
         FOREIGN KEY (ProductId) REFERENCES Product(Id)
 ) ENGINE=InnoDB;
 
 
 /* magazijn gegevens invullen */
+
 INSERT INTO Magazijn
 (
+    Id,
     ProductId,
     VerpakkingsEenheid,
     AantalAanwezig,
@@ -147,23 +173,24 @@ INSERT INTO Magazijn
     DatumGewijzigd
 )
 VALUES
-    (1, 5, 453, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (2, 2.5, 400, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (3, 5, 1, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (4, 1, 800, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (5, 3, 234, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (6, 2, 345, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (7, 1, 795, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (8, 10, 233, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (9, 2.5, 123, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (10, 3, NULL, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (11, 2, 367, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (12, 1, 467, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (13, 5, 20, 1, NULL, SYSDATE(6), SYSDATE(6));
+    (1, 1, 5, 453, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (2, 2, 2.5, 400, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (3, 3, 5, 1, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (4, 4, 1, 800, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (5, 5, 3, 234, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (6, 6, 2, 345, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (7, 7, 1, 795, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (8, 8, 10, 233, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (9, 9, 2.5, 123, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (10, 10, 3, NULL, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (11, 11, 2, 367, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (12, 12, 1, 467, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (13, 13, 5, 20, 1, NULL, SYSDATE(6), SYSDATE(6));
 
 
 /* koppeltabel product en allergeen */
-CREATE TABLE IF NOT EXISTS ProductPerAllergeen
+
+CREATE TABLE ProductPerAllergeen
 (
     Id                  TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     ProductId           TINYINT UNSIGNED NOT NULL,
@@ -184,8 +211,10 @@ CREATE TABLE IF NOT EXISTS ProductPerAllergeen
 
 
 /* koppelinge invullen */
+
 INSERT INTO ProductPerAllergeen
 (
+    Id,
     ProductId,
     AllergeenId,
     IsActief,
@@ -194,22 +223,23 @@ INSERT INTO ProductPerAllergeen
     DatumGewijzigd
 )
 VALUES
-    (1, 2, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (1, 1, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (1, 3, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (3, 4, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (6, 5, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (9, 2, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (9, 5, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (10, 2, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (12, 4, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (13, 1, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (13, 4, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (13, 5, 1, NULL, SYSDATE(6), SYSDATE(6));
+    (1, 1, 2, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (2, 1, 1, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (3, 1, 3, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (4, 3, 4, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (5, 6, 5, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (6, 9, 2, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (7, 9, 5, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (8, 10, 2, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (9, 12, 4, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (10, 13, 1, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (11, 13, 4, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (12, 13, 5, 1, NULL, SYSDATE(6), SYSDATE(6));
 
 
 /* koppeltabel product en leverancier */
-CREATE TABLE IF NOT EXISTS ProductPerLeverancier
+
+CREATE TABLE ProductPerLeverancier
 (
     Id                          TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     LeverancierId               TINYINT UNSIGNED NOT NULL,
@@ -233,8 +263,10 @@ CREATE TABLE IF NOT EXISTS ProductPerLeverancier
 
 
 /* leveringen invullen */
+
 INSERT INTO ProductPerLeverancier
 (
+    Id,
     LeverancierId,
     ProductId,
     DatumLevering,
@@ -246,20 +278,20 @@ INSERT INTO ProductPerLeverancier
     DatumGewijzigd
 )
 VALUES
-    (1, 1, '2024-10-09', 23, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (1, 1, '2024-10-18', 21, '2024-10-25', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (1, 2, '2024-10-09', 12, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (1, 3, '2024-10-10', 11, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (2, 4, '2024-10-14', 16, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (2, 4, '2024-10-21', 23, '2024-10-28', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (2, 5, '2024-10-14', 45, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (2, 6, '2024-10-14', 30, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (3, 7, '2024-10-12', 12, '2024-10-19', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (3, 7, '2024-10-19', 23, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (3, 8, '2024-10-10', 12, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (3, 9, '2024-10-11', 1, '2024-10-18', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (4, 10, '2024-10-16', 24, '2024-10-30', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (5, 11, '2024-10-10', 47, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (5, 11, '2024-10-19', 60, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (5, 12, '2024-10-11', 45, NULL, 1, NULL, SYSDATE(6), SYSDATE(6)),
-    (5, 13, '2024-10-12', 23, NULL, 1, NULL, SYSDATE(6), SYSDATE(6));
+    (1, 1, 1, '2024-10-09', 23, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (2, 1, 1, '2024-10-18', 21, '2024-10-25', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (3, 1, 2, '2024-10-09', 12, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (4, 1, 3, '2024-10-10', 11, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (5, 2, 4, '2024-10-14', 16, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (6, 2, 4, '2024-10-21', 23, '2024-10-28', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (7, 2, 5, '2024-10-14', 45, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (8, 2, 6, '2024-10-14', 30, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (9, 3, 7, '2024-10-12', 12, '2024-10-19', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (10, 3, 7, '2024-10-19', 23, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (11, 3, 8, '2024-10-10', 12, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (12, 3, 9, '2024-10-11', 1, '2024-10-18', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (13, 4, 10, '2024-10-16', 24, '2024-10-30', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (14, 5, 11, '2024-10-10', 47, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (15, 5, 11, '2024-10-19', 60, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (16, 5, 12, '2024-10-11', 45, NULL, 1, NULL, SYSDATE(6), SYSDATE(6)),
+    (17, 5, 13, '2024-10-12', 23, NULL, 1, NULL, SYSDATE(6), SYSDATE(6));

@@ -20,6 +20,8 @@ class LeverancierTest extends JaminMysqlTestCase
         $leveranciers = $model->getLeveranciers();
         $this->assertCount(6, $leveranciers);
         $this->assertSame([3, 3, 3, 3, 1, 0], array_map(fn ($l) => (int) $l->AantalVerschillendeProducten, $leveranciers));
+        $this->assertSame([1, 2, 3, 5, 4, 6], array_map(fn ($l) => (int) $l->Id, $leveranciers));
+        $this->assertSame('Venco', $leveranciers[0]->Naam);
         $this->assertSame('Quality Street', $leveranciers[5]->Naam);
 
         $this->actingAs(User::factory()->create())->get('/leveranciers')
@@ -35,7 +37,7 @@ class LeverancierTest extends JaminMysqlTestCase
         $this->assertSame('2024-11-18', $producten[0]->LaatsteLevering);
 
         $this->actingAs(User::factory()->create())->get('/leveranciers/1/producten')
-            ->assertOk()->assertSee('Bert van Linge')->assertSee('18-11-2024');
+            ->assertOk()->assertSee('Bert van Linge')->assertSee('18-11-2024')->assertSee('5 kg');
     }
 
     public function test_lege_leverancier_toont_melding_en_keert_na_drie_seconden_terug(): void

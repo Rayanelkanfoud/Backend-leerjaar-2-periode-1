@@ -6,16 +6,23 @@
     @endif
 
     <div class="p-6">
-        <h1 class="mb-6 text-2xl font-bold">Geleverde producten</h1>
+        <h1 class="mb-6 text-2xl font-bold underline">Geleverde producten</h1>
 
         <dl class="mb-6 grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2">
-            <dt class="font-bold">Naam leverancier:</dt><dd>{{ $leverancier->Naam }}</dd>
-            <dt class="font-bold">Contactpersoon:</dt><dd>{{ $leverancier->ContactPersoon }}</dd>
-            <dt class="font-bold">Leverancier nr:</dt><dd>{{ $leverancier->LeverancierNummer }}</dd>
-            <dt class="font-bold">Mobiel:</dt><dd>{{ $leverancier->Mobiel }}</dd>
+            <dt>Naam leverancier:</dt><dd>{{ $leverancier->Naam }}</dd>
+            <dt>Contactpersoon:</dt><dd>{{ $leverancier->ContactPersoon }}</dd>
+            <dt>Leverancier nr:</dt><dd>{{ $leverancier->LeverancierNummer }}</dd>
+            <dt>Mobiel:</dt><dd>{{ $leverancier->Mobiel }}</dd>
         </dl>
         <div class="overflow-x-auto">
             <table class="w-full border-collapse">
+                <colgroup>
+                    <col class="w-[18%]">
+                    <col class="w-[20%]">
+                    <col class="w-[24%]">
+                    <col class="w-[25%]">
+                    <col class="w-[13%]">
+                </colgroup>
                 <thead class="bg-zinc-100 dark:bg-zinc-800">
                     <tr>
                         <th scope="col" class="border border-zinc-400 px-3 py-2 text-left">Naam product</th>
@@ -30,10 +37,10 @@
                         <tr>
                             <td class="border border-zinc-400 px-3 py-2">{{ $product->Naam }}</td>
                             <td class="border border-zinc-400 px-3 py-2">{{ $product->AantalAanwezig ?? 0 }}</td>
-                            <td class="border border-zinc-400 px-3 py-2">{{ str_replace('.', ',', $product->VerpakkingsEenheid) }} kg</td>
+                            <td class="border border-zinc-400 px-3 py-2">{{ str_replace('.', ',', (string) (float) $product->VerpakkingsEenheid) }} kg</td>
                             <td class="border border-zinc-400 px-3 py-2">{{ date('d-m-Y', strtotime($product->LaatsteLevering)) }}</td>
                             <td class="border border-zinc-400 px-3 py-2 text-center">
-                                <a class="inline-flex items-center justify-center text-blue-600 dark:text-blue-400" href="{{ route('leveringen.create', [$leverancier->Id, $product->Id]) }}" aria-label="Nieuwe levering van {{ $product->Naam }}" title="Nieuwe levering">
+                                <a class="inline-flex items-center justify-center text-zinc-900 dark:text-white" href="{{ route('leveringen.create', [$leverancier->Id, $product->Id]) }}" aria-label="Nieuwe levering van {{ $product->Naam }}" title="Nieuwe levering">
                                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
                                         <path d="M12 4v16 M4 12h16" />
                                     </svg>

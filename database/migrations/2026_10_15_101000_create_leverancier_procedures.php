@@ -13,7 +13,11 @@ return new class extends Migration
 
         foreach (['sp_get_leveranciers', 'sp_get_leverancier', 'sp_get_geleverde_producten'] as $procedure) {
             DB::unprepared("DROP PROCEDURE IF EXISTS $procedure");
-            DB::unprepared(file_get_contents(database_path("procedures/$procedure.sql")));
+            $sql = file_get_contents(database_path("procedures/$procedure.sql"));
+            if ($sql === false) {
+                throw new RuntimeException("De stored procedure $procedure kon niet worden gelezen.");
+            }
+            DB::connection()->getPdo()->exec($sql);
         }
     }
 

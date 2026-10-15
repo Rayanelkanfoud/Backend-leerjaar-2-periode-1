@@ -47,8 +47,9 @@ De elf Jamin-tests maken voor iedere test een eigen `jamin_test_...` database en
 
 - `feature_overzicht_leverancier`: databasevoorbereiding, procedures, leveranciersschermen en tests van userstory 1.
 - `feature_toevoegen_product`: bouwt verder op de eerste featurebranch en bevat de levering van userstory 2 en de eindcontroles.
-- `dev` en `main`: blijven ongewijzigd tot het geheel is gecontroleerd.
+- `dev`: beide userstories samengevoegd en samen getest.
+- `main`: de gecontroleerde versie van opdracht 1 en opdracht 2.
 
-Na goedkeuring eerst beide featurebranches naar `dev` mergen en testen; daarna `dev` naar `main` mergen. Er zijn nog geen merges uitgevoerd.
+De featurebranches zijn via `dev` naar `main` gemerged. De losse featurebranches blijven bewaard.
 
 De databasespecificatie staat in `docs/Database specificatie tabel.md`. Het filmpje voor Canvas moet nog worden opgenomen; zie `vids/README.md`.

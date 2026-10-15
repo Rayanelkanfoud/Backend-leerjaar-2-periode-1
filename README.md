@@ -17,7 +17,7 @@ composer run dev
 
 Bij een bestaande installatie is alleen `php artisan migrate` nodig voor de nieuwe tabellenwijzigingen en stored procedures. Het handmatig uitvoeren van het createscript maakt de zes Jamin-tabellen opnieuw aan; gebruik voor de bestaande database dus de migraties.
 
-Open `http://127.0.0.1:8000`, klik op **Overzicht Leveranciers** en log in met je bestaande account. Nieuwe accounts kunnen worden geregistreerd via `/register`.
+Open `http://127.0.0.1:8000/dashboard` en log in met je bestaande account. Open **Overzicht Leveranciers** op de homepage of **Leveranciers** in de bestaande Laravel-sidebar. De nieuwe Blade-views gebruiken dezelfde app-layout en tabelopmaak als opdracht 1. Nieuwe accounts kunnen worden geregistreerd via `/register`.
 
 ## Scenario's
 
@@ -41,7 +41,7 @@ php artisan test
 Remove-Item Env:JAMIN_MYSQL_TESTS
 ```
 
-De tien Jamin-tests maken voor iedere test een eigen `jamin_test_...` database en verwijderen die daarna. Het MySQL-account heeft hiervoor CREATE DATABASE, DROP DATABASE, CREATE ROUTINE en TRIGGER nodig. Zonder de omgevingsvariabele worden deze MySQL-tests overgeslagen; de overige tests gebruiken SQLite in het geheugen.
+De elf Jamin-tests maken voor iedere test een eigen `jamin_test_...` database en verwijderen die daarna. Het MySQL-account heeft hiervoor CREATE DATABASE, DROP DATABASE, CREATE ROUTINE en TRIGGER nodig. Zonder de omgevingsvariabele worden deze MySQL-tests overgeslagen; de overige tests gebruiken SQLite in het geheugen.
 
 ## Branches
 

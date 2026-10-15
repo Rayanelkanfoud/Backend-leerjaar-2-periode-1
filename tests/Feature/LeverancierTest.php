@@ -23,7 +23,8 @@ class LeverancierTest extends JaminMysqlTestCase
         $this->assertSame('Quality Street', $leveranciers[5]->Naam);
 
         $this->actingAs(User::factory()->create())->get('/leveranciers')
-            ->assertOk()->assertSee('Overzicht leveranciers')->assertSee('Quality Street');
+            ->assertOk()->assertSee('Overzicht leveranciers')->assertSee('Quality Street')
+            ->assertSee('data-flux-sidebar', false)->assertSee(route('dashboard'));
     }
 
     public function test_producten_bevatten_geen_dubbele_leveringen_en_juiste_sortering(): void

@@ -4,7 +4,7 @@ Laravel MVC-applicatie met PDO en MySQL stored procedures.
 
 ## Starten
 
-Gebruik de bestaande `.env` met de lokale MySQL-verbinding. Voor een nieuwe installatie: kopieer `.env.example` naar `.env`, stel de MySQL-verbinding in en maak een lege database aan. Gebruik PHP 8.3 of hoger met pdo_mysql en Composer.
+Gebruik de bestaande `.env` met de lokale MySQL-verbinding. Voor een nieuwe installatie: kopieer `.env.example` naar `.env`, stel de MySQL-verbinding in en maak een lege database aan. Gebruik PHP 8.4 of hoger met pdo_mysql en Composer.
 
 ```powershell
 composer install

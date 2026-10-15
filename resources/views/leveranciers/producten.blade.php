@@ -25,7 +25,13 @@
                         <td>{{ $product->AantalAanwezig ?? 0 }}</td>
                         <td>{{ str_replace('.', ',', $product->VerpakkingsEenheid) }} kg</td>
                         <td>{{ date('d-m-Y', strtotime($product->LaatsteLevering)) }}</td>
-                        <td class="action"><span title="Nieuwe levering volgt in userstory 2">+</span></td>
+                        <td class="action">
+                            <a class="icon" href="{{ route('leveringen.create', [$leverancier->Id, $product->Id]) }}" aria-label="Nieuwe levering van {{ $product->Naam }}" title="Nieuwe levering">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+                                    <path d="M12 4v16 M4 12h16" />
+                                </svg>
+                            </a>
+                        </td>
                     </tr>
                 @empty
                     <tr>

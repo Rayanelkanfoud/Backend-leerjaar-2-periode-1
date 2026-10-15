@@ -17,5 +17,7 @@
         Overzicht Magazijn Jamin
     </a>
 
+    <p><a href="{{ route('leveranciers.index') }}">Overzicht Leveranciers</a></p>
+
 </body>
 </html>

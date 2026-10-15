@@ -11,5 +11,8 @@
         <a href="{{ route('magazijn') }}" class="text-blue-600 underline" wire:navigate>
             Overzicht Magazijn Jamin
         </a>
+        <p class="mt-4">
+            <a href="{{ route('leveranciers.index') }}" class="text-blue-600 underline">Overzicht Leveranciers</a>
+        </p>
     </div>
 </x-layouts::app>

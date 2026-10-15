@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LeverancierController;
+use App\Http\Controllers\LeveringController;
 use App\Http\Controllers\MagazijnController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/leveranciers', [LeverancierController::class, 'index'])->name('leveranciers.index');
     Route::get('/leveranciers/{leverancierId}/producten', [LeverancierController::class, 'producten'])
         ->whereNumber('leverancierId')->name('leveranciers.producten');
+    Route::get('/leveranciers/{leverancierId}/producten/{productId}/levering', [LeveringController::class, 'create'])
+        ->whereNumber(['leverancierId', 'productId'])->name('leveringen.create');
+    Route::post('/leveranciers/{leverancierId}/producten/{productId}/levering', [LeveringController::class, 'store'])
+        ->whereNumber(['leverancierId', 'productId'])->name('leveringen.store');
 });

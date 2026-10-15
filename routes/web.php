@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MagazijnController;
+use App\Http\Controllers\LeverancierController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
@@ -25,3 +26,9 @@ Route::get(
 )->name('magazijn.allergenen');
 
 require __DIR__.'/settings.php';
+
+Route::middleware('auth')->group(function () {
+    Route::get('/leveranciers', [LeverancierController::class, 'index'])->name('leveranciers.index');
+    Route::get('/leveranciers/{leverancierId}/producten', [LeverancierController::class, 'producten'])
+        ->whereNumber('leverancierId')->name('leveranciers.producten');
+});

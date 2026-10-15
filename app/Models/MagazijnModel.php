@@ -24,8 +24,7 @@ class MagazijnModel
             FROM Product AS p
             INNER JOIN Magazijn AS m
                 ON p.Id = m.ProductId
-            WHERE p.IsActief = 1
-                AND m.IsActief = 1
+            WHERE m.IsActief = 1
             ORDER BY p.Barcode ASC
         ';
 

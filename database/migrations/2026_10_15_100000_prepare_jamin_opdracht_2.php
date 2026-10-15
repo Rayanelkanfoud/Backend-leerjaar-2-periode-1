@@ -18,8 +18,14 @@ return new class extends Migration
 
         if (count($existing) === 0) {
             $sql = file_get_contents(database_path('create_script.sql'));
+            if ($sql === false) {
+                throw new RuntimeException('Het createscript kon niet worden gelezen.');
+            }
             $sql = preg_replace('/^(CREATE DATABASE[^;]*;|USE[^;]*;)\s*$/mi', '', $sql);
-            DB::unprepared($sql);
+            if ($sql === null) {
+                throw new RuntimeException('Het createscript kon niet worden voorbereid.');
+            }
+            DB::connection()->getPdo()->exec($sql);
         } elseif (count($existing) !== count($tables)) {
             throw new RuntimeException('De Jamin database is onvolledig. Controleer eerst de zes tabellen.');
         }

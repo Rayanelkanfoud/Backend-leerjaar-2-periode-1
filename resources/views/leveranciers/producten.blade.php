@@ -1,42 +1,63 @@
-<x-jamin-layout title="Geleverde producten"
-    :refresh-url="count($producten) === 0 ? route('leveranciers.index') : null"
-    :refresh-seconds="3">
-    <dl class="details">
-        <dt>Naam leverancier:</dt><dd>{{ $leverancier->Naam }}</dd>
-        <dt>Contactpersoon:</dt><dd>{{ $leverancier->ContactPersoon }}</dd>
-        <dt>Leverancier nr:</dt><dd>{{ $leverancier->LeverancierNummer }}</dd>
-        <dt>Mobiel:</dt><dd>{{ $leverancier->Mobiel }}</dd>
-    </dl>
-    <div class="table-scroll">
-        <table>
-            <thead>
-                <tr>
-                    <th scope="col">Naam product</th>
-                    <th scope="col">Aantal in magazijn</th>
-                    <th scope="col">Verpakkingseenheid</th>
-                    <th scope="col">Laatste levering</th>
-                    <th scope="col">Nieuwe levering</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($producten as $product)
+<x-layouts::app :title="__('Geleverde producten')">
+    @if (count($producten) === 0)
+        @push('head')
+            <meta http-equiv="refresh" content="3;url={{ route('leveranciers.index') }}">
+        @endpush
+    @endif
+
+    <div class="p-6">
+        <h1 class="mb-6 text-2xl font-bold underline">Geleverde producten</h1>
+
+        <dl class="mb-6 grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2">
+            <dt>Naam leverancier:</dt><dd>{{ $leverancier->Naam }}</dd>
+            <dt>Contactpersoon:</dt><dd>{{ $leverancier->ContactPersoon }}</dd>
+            <dt>Leverancier nr:</dt><dd>{{ $leverancier->LeverancierNummer }}</dd>
+            <dt>Mobiel:</dt><dd>{{ $leverancier->Mobiel }}</dd>
+        </dl>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <colgroup>
+                    <col class="w-[18%]">
+                    <col class="w-[20%]">
+                    <col class="w-[24%]">
+                    <col class="w-[25%]">
+                    <col class="w-[13%]">
+                </colgroup>
+                <thead class="bg-zinc-100 dark:bg-zinc-800">
                     <tr>
-                        <td>{{ $product->Naam }}</td>
-                        <td>{{ $product->AantalAanwezig ?? 0 }}</td>
-                        <td>{{ str_replace('.', ',', $product->VerpakkingsEenheid) }} kg</td>
-                        <td>{{ date('d-m-Y', strtotime($product->LaatsteLevering)) }}</td>
-                        <td class="action"><span title="Nieuwe levering volgt in userstory 2">+</span></td>
+                        <th scope="col" class="border border-zinc-400 px-3 py-2 text-left">Naam product</th>
+                        <th scope="col" class="border border-zinc-400 px-3 py-2 text-left">Aantal in magazijn</th>
+                        <th scope="col" class="border border-zinc-400 px-3 py-2 text-left">Verpakkingseenheid</th>
+                        <th scope="col" class="border border-zinc-400 px-3 py-2 text-left">Laatste levering</th>
+                        <th scope="col" class="border border-zinc-400 px-3 py-2 text-left">Nieuwe levering</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td class="message" colspan="5" role="status">Dit bedrijf heeft tot nu toe geen producten geleverd aan Jamin</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($producten as $product)
+                        <tr>
+                            <td class="border border-zinc-400 px-3 py-2">{{ $product->Naam }}</td>
+                            <td class="border border-zinc-400 px-3 py-2">{{ $product->AantalAanwezig ?? 0 }}</td>
+                            <td class="border border-zinc-400 px-3 py-2">{{ str_replace('.', ',', (string) (float) $product->VerpakkingsEenheid) }} kg</td>
+                            <td class="border border-zinc-400 px-3 py-2">{{ date('d-m-Y', strtotime($product->LaatsteLevering)) }}</td>
+                            <td class="border border-zinc-400 px-3 py-2 text-center">
+                                <a class="inline-flex items-center justify-center text-zinc-900 dark:text-white" href="{{ route('leveringen.create', [$leverancier->Id, $product->Id]) }}" aria-label="Nieuwe levering van {{ $product->Naam }}" title="Nieuwe levering">
+                                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+                                        <path d="M12 4v16 M4 12h16" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="border border-zinc-400 px-3 py-4 text-center" colspan="5" role="status">Dit bedrijf heeft tot nu toe geen producten geleverd aan Jamin</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-6 flex justify-end gap-4">
+            <a class="border border-zinc-400 px-5 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700" href="{{ route('leveranciers.index') }}">Terug</a>
+            <a class="border border-zinc-400 px-5 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-700" href="{{ route('dashboard') }}">Home</a>
+        </div>
     </div>
-    <div class="buttons">
-        <a class="button" href="{{ route('leveranciers.index') }}">Terug</a>
-        <a class="button" href="{{ route('home') }}">Home</a>
-    </div>
-</x-jamin-layout>
+</x-layouts::app>

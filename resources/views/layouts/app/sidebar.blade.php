@@ -19,6 +19,10 @@
                     <flux:sidebar.item icon="building-storefront" :href="route('magazijn')" :current="request()->routeIs('magazijn*')" wire:navigate>
                         {{ __('Magazijn') }}
                     </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="truck" :href="route('leveranciers.index')" :current="request()->routeIs('leveranciers.*', 'leveringen.*')">
+                        {{ __('Leveranciers') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 

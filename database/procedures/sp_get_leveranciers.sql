@@ -7,5 +7,5 @@ BEGIN
         ON pl.LeverancierId = l.Id AND pl.IsActief = 1
     WHERE l.IsActief = 1
     GROUP BY l.Id, l.Naam, l.ContactPersoon, l.LeverancierNummer, l.Mobiel
-    ORDER BY AantalVerschillendeProducten DESC, l.Naam ASC;
+    ORDER BY AantalVerschillendeProducten DESC, l.Id ASC;
 END

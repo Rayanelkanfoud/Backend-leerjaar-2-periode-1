@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MagazijnModel;
+use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
 class MagazijnController extends Controller implements HasMiddleware
@@ -13,7 +14,7 @@ class MagazijnController extends Controller implements HasMiddleware
         return ['auth'];
     }
 
-    public function index(MagazijnModel $magazijnModel)
+    public function index(MagazijnModel $magazijnModel): View
     {
         // producten ophalen uit databse
         $producten = $magazijnModel->getProducten();
@@ -23,12 +24,12 @@ class MagazijnController extends Controller implements HasMiddleware
         ]);
     }
 
-    public function leverantie(int $id, MagazijnModel $magazijnModel)
+    public function leverantie(int $id, MagazijnModel $magazijnModel): View
     {
         // gekozen product ophalen
         $product = $magazijnModel->getProduct($id);
 
-        abort_if(!$product, 404);
+        abort_if(! $product, 404);
 
         // checken of product voorraad heeft
         if ($product->AantalAanwezig === null) {
@@ -52,12 +53,12 @@ class MagazijnController extends Controller implements HasMiddleware
         ]);
     }
 
-    public function allergenen(int $id, MagazijnModel $magazijnModel)
+    public function allergenen(int $id, MagazijnModel $magazijnModel): View
     {
         // product ophalen
         $product = $magazijnModel->getProduct($id);
 
-        abort_if(!$product, 404);
+        abort_if(! $product, 404);
 
         // allergenen ophalen
         $allergenen = $magazijnModel->getAllergenen($id);
